@@ -5,11 +5,11 @@ var shareData, scrollDirection = "top",
 	wh = window.innerHeight,
 	shayuPlay = false,
 	loader, container;
-$(function() {
+$(function () {
 	// loading图片加载
 	var loadingImg = new Image();
 	loadingImg.src = "image/loading.png";
-	loadingImg.onload = function() {
+	loadingImg.onload = function () {
 		// pixi初始化
 		pixifn();
 	}
@@ -20,66 +20,53 @@ var app = new PIXI.Application(640, 1040, {
 });
 
 var img = [
-	"image/bg/bg1.png",
-	"image/bg/bg2.png",
-	"image/bg/bg3.png",
-	"image/bg/bg4.png",
-	"image/bg/bg5.png",
-	"image/afix.png",
-	"image/shuiliu.png",
-	"image/hehua.png",
-	"image/shuicao.png",
-	"image/qipao.png",
-	"image/photo1.png",
-	"image/photo2.png",
-	"image/photo3.png",
-	"image/car.png",
-	"image/lang1.png",
-	"image/lang2.png",
-	"image/lang3.png",
-	"image/qiao.png",
-	"image/girl1.png",
-	"image/girl2.png",
-	"image/xuanwo.png",
-	"image/ermo.png",
-	"image/dnf.png",
-	"image/run1.png",
-	"image/run2.png",
-	"image/run3.png",
-	"image/run4.png",
-	"image/run5.png",
-	"image/run6.png",
+	"image/p1_bg.png",
+	"image/p2_text.jpeg",
+	"image/p3_bg.jpeg",
+	"image/01.png",
+	"image/02.png",
+	"image/03.png",
+	"image/04.png",
 ]
 
-const manifest = {
-	loop1: 'mp3/bicycle.mp3',
-	loop2: 'mp3/environment.mp3'
-};
+// const manifest = {
+// 	loop1: 'mp3/bicycle.mp3',
+// 	loopbg: 'mp3/environment.mp3'
+// };
 
 
-function pixifn() {
+function pixifn () {
 	$('.main').append(app.view);
 	loader = new PIXI.loaders.Loader();
 	loader.add(img);
-	PIXI.sound.add(manifest);
+	// PIXI.sound.add(manifest);
 	loader.load(setup);
-	loader.onProgress.add(function(e) {
+	loader.onProgress.add(function (e) {
 		$('.progress').css('width', Math.round(e.progress) + '%');
 		$(".loadingnum").text(Math.round(e.progress) + '%');
 	});
-// 	loader.on("progress", function(target, resource) {  
-// 		console.log("progress:", target.progress); //加载进度  
-// 	});  
-// 	loader.once('complete', function(target, resource) {  
-// 		createSprite("run",6);
-// 	});  
-	
+	loader.on("progress", function (target, resource) {
+		console.log("progress:", target.progress); //加载进度  
+		if (target.progress == 100) {
+			// sound_effect("loopbg");
+			var audio = document.getElementById('music1');
+			audio.play();
+			document.addEventListener("WeixinJSBridgeReady", function () {
+				audio.play();
+			}, false);
+		}
+	});
 };
 
 //播放音效
-function sound_effect(name) {
+function sound_effect (name) {
 	PIXI.sound.stopAll();
 	// PIXI.sound.stop(name);
+	// for (let key in manifest) {
+	//   if(name!='loopbg'){
+	// 	  PIXI.sound.stop(name);
+	//   }
+	// }
 	PIXI.sound.play(name);
 }
 
@@ -104,139 +91,61 @@ function sound_effect(name) {
 // }
 
 
-function setup() {
+function setup () {
 	container = new PIXI.Container();
 	var bg = new PIXI.Container();
 	bg.x = 0;
 	bg.y = 0;
 	bg.height = 5504;
 	container.interactive = true;
+	// sound_effect("loopbg");
 
+	const borderline = new PIXI.Graphics();
+	borderline.beginFill(0x2b4884)//填充
+	borderline.drawRect(0, 0, 640, document.documentElement.clientHeight);//x,y,w,h
+	borderline.endFill();
 
+	sprite = new PIXI.Sprite(
+		loader.resources["image/p1_bg.png"].texture
+	);
+	sprite.position.set(0, (document.documentElement.clientHeight - sprite.height) / 2);
+	sprite.zOrder = 10;
 
+	sprite1 = new PIXI.Sprite(
+		loader.resources["image/p2_text.jpeg"].texture
+	);
+	sprite1.position.set(0, 0);
+	sprite1.alpha = 0;
 
-	var sprite = new PIXI.Sprite(
-		loader.resources["image/bg/bg1.png"].texture
+	sprite2 = new PIXI.Sprite(
+		loader.resources["image/p3_bg.jpeg"].texture
 	);
-	var sprite2 = new PIXI.Sprite(
-		loader.resources["image/bg/bg2.png"].texture
-	);
-	sprite2.position.set(0, 710);
-	var sprite3 = new PIXI.Sprite(
-		loader.resources["image/bg/bg3.png"].texture
-	);
-	sprite3.position.set(0, 1673);
-	var sprite4 = new PIXI.Sprite(
-		loader.resources["image/bg/bg4.png"].texture
-	);
-	sprite4.position.set(0, 3493);
-	sprite5 = new PIXI.Sprite(
-		loader.resources["image/bg/bg5.png"].texture
-	);
-	sprite5.position.set(0, 4884);
+	sprite2.position.set(0, 1500);
+	sprite2.alpha = 0;
 
-	// 遮罩背景
-	afix = new PIXI.Sprite(
-		loader.resources["image/afix.png"].texture
+	niao01 = new PIXI.Sprite(
+		loader.resources["image/01.png"].texture
 	);
-	afix.position.set(0, 689);
+	niao01.position.set(325, 1600);
+	niao01.alpha = 0;
 
-	afix1 = new PIXI.Sprite(
-		loader.resources["image/afix.png"].texture
+	niao02 = new PIXI.Sprite(
+		loader.resources["image/02.png"].texture
 	);
-	afix1.position.set(0, 689);
-	// 水流
-	shuiliu = new PIXI.Sprite(
-		loader.resources["image/shuiliu.png"].texture
-	);
-	shuiliu.position.set(0, 709);
-	// 小女孩1
-	girl1 = new PIXI.Sprite(
-		loader.resources["image/girl1.png"].texture
-	);
-	girl1.position.set(-200, 550);
+	niao02.position.set(350, 1700);
+	niao02.alpha = 0;
 
-	// // 小女孩2
-	girl2 = new PIXI.Sprite(
-		loader.resources["image/girl2.png"].texture
+	niao03 = new PIXI.Sprite(
+		loader.resources["image/03.png"].texture
 	);
-	girl2.position.set(172, 982);
-	girl2.alpha = 0;
+	niao03.position.set(375, 1800);
+	niao03.alpha = 0;
 
-	// 	兼容鼠标和触摸屏的共同触发：
-	// 	pointercancel：触发系统cancels键
-	// 	pointerdown：触发按下
-	// 	pointermove：触发移动
-	// 	pointerout：触发移出
-	// 	pointerover：触发经过
-	// 	pointertap：触发点击
-	// 	pointerup：触发松开
-	// 	要注册交互事件前，一定要把显示对象的interactive和buttonMode属性设为true。
-
-	girl2.interactive = true;
-	girl2.buttonMode = true;
-	girl2.on('pointertap', function() {
-		console.log(666666666666666666666);
-		sound_effect("loop2")
-	})
-	// 荷花
-	hehua = new PIXI.Sprite(
-		loader.resources["image/hehua.png"].texture
+	niao04 = new PIXI.Sprite(
+		loader.resources["image/04.png"].texture
 	);
-	hehua.position.set(352, 566);
-
-	// 水草
-	shuicao = new PIXI.Sprite(
-		loader.resources["image/shuicao.png"].texture
-	);
-	shuicao.position.set(-110, 2429);
-	qipao = new PIXI.Sprite(
-		loader.resources["image/qipao.png"].texture
-	);
-	qipao.position.set(140, 2191);
-	// 相片1
-	photo1 = new PIXI.Sprite(
-		loader.resources["image/photo1.png"].texture
-	);
-	photo1.position.set(29, 3173);
-	photo1.alpha = 0;
-	// 相片2
-	photo2 = new PIXI.Sprite(
-		loader.resources["image/photo2.png"].texture
-	);
-	photo2.alpha = 0;
-	photo2.position.set(130, 3361);
-	// 相片3
-	photo3 = new PIXI.Sprite(
-		loader.resources["image/photo3.png"].texture
-	);
-	photo3.alpha = 0;
-	photo3.position.set(220, 3552);
-	// 救护车
-	car = new PIXI.Sprite(
-		loader.resources["image/car.png"].texture
-	);
-	car.position.set(-300, 4048);
-	qiao = new PIXI.Sprite(
-		loader.resources["image/qiao.png"].texture
-	);
-	qiao.position.set(0, 4214);
-	// 海浪
-	lang1 = new PIXI.Sprite(
-		loader.resources["image/lang1.png"].texture
-	);
-	lang1.position.set(0, 4145);
-	lang1.alpha = 0;
-	lang2 = new PIXI.Sprite(
-		loader.resources["image/lang2.png"].texture
-	);
-	lang2.alpha = 0;
-	lang2.position.set(0, 3809);
-	lang3 = new PIXI.Sprite(
-		loader.resources["image/lang3.png"].texture
-	);
-	lang1.alpha = 3;
-	lang3.position.set(0, 4109);
+	niao04.position.set(340, 1900);
+	niao04.alpha = 0;
 
 
 	//var urlPadding = "imgs/dog/",
@@ -247,46 +156,13 @@ function setup() {
 
 	//    dog = new PIXI.extras.AnimatedSprite.fromImages(act_1_animate_bg_img_arr)
 
-	xuanwo = new PIXI.Sprite(
-		loader.resources["image/xuanwo.png"].texture
-	);
 
-	xuanwo.anchor.set(0.5, 0.5); //设置图片中心点，根据中心点旋转
-	xuanwo.scale.set(0.4, 0.4);
-	xuanwo.x = 329;
-	xuanwo.y = 1967;
-	// 恶魔
-	ermo = new PIXI.Sprite(
-		loader.resources["image/ermo.png"].texture
-	);
-
-	ermo.anchor.set(0.5, 0.5);
-	ermo.scale.set(0.4, 0.4);
-	ermo.alpha = 0;
-	ermo.x = 339;
-	ermo.y = 1033;
-	
-	//自行车
-	var Textures = []
-	for (var i=1; i < 7; i++) {
-		var Texture = loader.resources["image/run"+i+".png"].texture;
-		Textures.push(Texture);
-	}
-	AnimatedSprite1 = new PIXI.extras.AnimatedSprite(Textures);
-	AnimatedSprite1.position.x = -600;  
-	AnimatedSprite1.position.y = 500;
-	AnimatedSprite1.animationSpeed = 0.1;  
-	AnimatedSprite1.alpha = 1;
-	
-	
-	
-	bg.addChild(sprite, sprite2, sprite3, sprite4, sprite5, shuiliu, girl1, hehua, afix, afix1, shuicao, qipao, photo1,
-		photo2, photo3, qiao, car, lang1, lang2, lang3, xuanwo, ermo, girl2,AnimatedSprite1);
+	bg.addChild(borderline, sprite, sprite1, sprite2, niao01, niao02, niao03, niao04);
 
 	container.addChild(bg);
 
 	app.stage.addChild(container);
-	setTimeout(function() {
+	setTimeout(function () {
 		$(".loadwrap").fadeOut(600);
 	}, 10);
 	scrollBegin();
@@ -295,7 +171,7 @@ function setup() {
 
 }
 // 横竖屏旋转
-function changeScene() {
+function changeScene () {
 	iniW = 640,
 		iniH = 1040,
 		tarW = 0,
@@ -315,15 +191,15 @@ function changeScene() {
 }
 
 // 横屏
-function h() {
-	setTimeout(function() {
+function h () {
+	setTimeout(function () {
 		ww = $(window).width();
 		wh = $(window).height();
 		tarW = ww;
 		tarH = tarW * iniH / iniW;
 		if (!(typeof scroller == "undefined")) {
 			app.renderer.resize(wh, ww);
-			setTimeout(function() {
+			setTimeout(function () {
 				scrollDirection = "left";
 				lastWidth = ww;
 				contentLength = 5504 - 499;
@@ -335,9 +211,9 @@ function h() {
 	}, 300);
 }
 // 竖屏
-function v() {
+function v () {
 	screenOrientation = "horizontal";
-	setTimeout(function() {
+	setTimeout(function () {
 		ww = $(window).width();
 		wh = $(window).height();
 		tarW = wh;
@@ -348,7 +224,7 @@ function v() {
 		});
 		if (!(typeof scroller == "undefined")) {
 			app.renderer.resize(ww, wh);
-			setTimeout(function() {
+			setTimeout(function () {
 				scrollDirection = "top";
 				lastWidth = wh;
 				console.log(wh)
@@ -363,13 +239,13 @@ function v() {
 	}, 300);
 }
 // 区间最小值, 区间最大值, top, 初始位置, 终点, 速度, 方向
-function scrollNum(minNum, maxNum, top, start, end) {
+function scrollNum (minNum, maxNum, top, start, end) {
 	return start + ((top - minNum) / (maxNum - minNum) * (end - start));
 }
 var playing = true
 
-function scrollBegin() {
-	scroller = new Scroller(function(left, top, zoom) {
+function scrollBegin () {
+	scroller = new Scroller(function (left, top, zoom) {
 		if (scrollDirection == "top") {
 			container.y = -top;
 		}
@@ -377,100 +253,54 @@ function scrollBegin() {
 			container.y = -left;
 		}
 		scrollPro = left > top ? left : top;
-		if(0 < scrollPro && scrollPro < 224){
-			AnimatedSprite1.play();
-			AnimatedSprite1.x = scrollNum(0, 224, scrollPro, -600, 200);
+		if (scrollPro < 100) {
+			sprite.y = 0
+			sprite.alpha = 1
+			sprite1.alpha = 0
 		}
-		
-		if (224 < scrollPro && scrollPro < 465) {
-            AnimatedSprite1.stop();
-			// TweenMax.to( girl1,1,{alpha:1,ease:Sine.easeOut,delay:2})
-			girl1.x = scrollNum(224, 465, scrollPro, -200, 187);
-			playing = true
-		}
-		if (550 < scrollPro && scrollPro < 982) {
-			if (playing) {
-				sound_effect("loop1")
-				playing = false
-			}
+		if (0 < scrollPro && scrollPro < 550) {
+			sprite.y = scrollNum(0, 500, scrollPro, 0, 500);
+			sprite.alpha = scrollNum(0, 500, scrollPro, 1, 0);
 
-			girl1.y = scrollNum(550, 982, scrollPro, 550, 980);
-			girl1.alpha = scrollNum(550, 982, scrollPro, 1, 0);
-		}
-		if (scrollPro < 960) {
-			girl2.alpha = 0;
-		}
-		if (960 < scrollPro && scrollPro < 1903) {
-			girl2.alpha = scrollNum(960, 1003, scrollPro, 0, 1);
-			// girl2.alpha =1;
-			girl2.y = scrollNum(960, 1903, scrollPro, 1171, 1903);
-			qipao.y = scrollNum(960, 1903, scrollPro, 2192, 1703);
-		}
-		if (scrollPro < 654) {
-			ermo.alpha = 0;
-		}
-		if (654 < scrollPro && scrollPro < 1251) {
-			ermo.alpha = scrollNum(654, 1051, scrollPro, 0, 1);
-			ermo.scale.x = scrollNum(654, 1051, scrollPro, 0.4, 1);
-			ermo.scale.y = scrollNum(654, 1051, scrollPro, 0.4, 1);
-		}
-		if (scrollPro < 2656) {
-			photo1.alpha = 0;
-			photo2.alpha = 0;
-			photo3.alpha = 0;
-		}
-		if (2656 < scrollPro && scrollPro < 3004) {
-			photo1.alpha = scrollNum(2656, 2984, scrollPro, 0, 1);
+			sprite1.y = scrollNum(0, 500, scrollPro, 0, 500);
+			sprite1.alpha = scrollNum(0, 500, scrollPro, 0, 1);
 
-			photo1.x = scrollNum(2656, 3004, scrollPro, 190, 29);
-			photo1.y = scrollNum(2656, 3004, scrollPro, 3228, 3173);
 		}
-		if (2828 < scrollPro && scrollPro < 3104) {
-			photo2.alpha = scrollNum(2828, 3104, scrollPro, 0, 1);
+		if (550 < scrollPro && scrollPro < 1400) {
+			sprite2.alpha = scrollNum(700, 1400, scrollPro, 0, 1);
+			niao01.alpha = scrollNum(700, 1400, scrollPro, 0, 1);
+		}
+		if (1400 < scrollPro && scrollPro < 1500) {
+			niao01.alpha = 1;
+			niao02.alpha = 0;
+			niao03.alpha = 0;
+			niao04.alpha = 0;
+			// niao01.y= scrollNum(1400, 1500, scrollPro, 1400, 1500);
+		}
+		if (1500 < scrollPro && scrollPro < 1600) {
+			niao02.alpha = 1;
+			niao01.alpha = 0;
+			niao03.alpha = 0;
+			niao04.alpha = 0;
+			niao02.y = scrollNum(1500, 1600, scrollPro, 1600, 1700);
+		}
+		if (1600 < scrollPro && scrollPro < 1700) {
+			niao02.alpha = 0;
+			niao01.alpha = 0;
+			niao03.alpha = 1;
+			niao04.alpha = 0;
+			niao03.y = scrollNum(1600, 1700, scrollPro, 1700, 1800);
+		}
+		if (1700 < scrollPro && scrollPro < 1800) {
+			niao02.alpha = 0;
+			niao01.alpha = 0;
+			niao03.alpha = 0;
+			niao04.alpha = 1;
+			niao04.y = scrollNum(1700, 1800, scrollPro, 1800, 1900);
+		}
 
-			photo2.x = scrollNum(2828, 3104, scrollPro, 390, 130);
-			photo2.y = scrollNum(2828, 3104, scrollPro, 3638, 3361);
-		}
-		if (2928 < scrollPro && scrollPro < 3204) {
 
-			photo3.alpha = scrollNum(2928, 3204, scrollPro, 0, 1);
-			photo3.x = scrollNum(2928, 3204, scrollPro, 390, 220);
-			photo3.y = scrollNum(2928, 3204, scrollPro, 3638, 3552);
-		}
-		if (3162 < scrollPro && scrollPro < 3653) {
 
-			car.x = scrollNum(3162, 3653, scrollPro, -380, 688);
-		}
-		if (scrollPro < 3362) {
-			lang1.alpha = 0;
-		}
-		if (3062 < scrollPro && scrollPro < 3409) {
-
-			lang1.alpha = scrollNum(3062, 3309, scrollPro, 0, 1);
-			lang2.alpha = scrollNum(3162, 3309, scrollPro, 0, 1);
-			lang3.alpha = scrollNum(3062, 3309, scrollPro, 0, 1);
-			lang1.y = scrollNum(3062, 3309, scrollPro, 4862, 4245);
-			lang2.y = scrollNum(3162, 3309, scrollPro, 4962, 4155);
-			lang3.y = scrollNum(3062, 3309, scrollPro, 4862, 4209);
-		}
-		if (scrollPro < 1590) {
-			xuanwo.alpha = 0;
-		}
-		if (1306 < scrollPro && scrollPro < 2264) {
-			xuanwo.alpha = scrollNum(1306, 1923, scrollPro, 0, 1);
-			xuanwo.rotation = scrollNum(1338, 2164, scrollPro, 0, 8);
-			xuanwo.scale.x = scrollNum(1338, 2064, scrollPro, 0, 1);
-			xuanwo.scale.y = scrollNum(1338, 2064, scrollPro, 0, 1);
-		}
-		if (1726 < scrollPro && scrollPro < 1953) {
-			girl2.alpha = scrollNum(1726, 1953, scrollPro, 1, 0);
-		}
-		if (scrollPro > 2264) {
-			xuanwo.alpha = 0
-		}
-		if (10 < scrollPro && scrollPro < 4368) {
-			var a = scrollPro - 4368 - 10;
-		}
 		console.log(scrollPro);
 
 	}, {
@@ -479,18 +309,18 @@ function scrollBegin() {
 	});
 
 	var mousedown = false;
-	document.addEventListener("touchstart", function(e) {
+	document.addEventListener("touchstart", function (e) {
 		scroller.doTouchStart(e.touches, e.timeStamp);
 		mousedown = true;
 	}, false);
-	document.addEventListener("touchmove", function(e) {
+	document.addEventListener("touchmove", function (e) {
 		if (!mousedown) {
 			return;
 		}
 		scroller.doTouchMove(e.touches, e.timeStamp);
 		mousedown = true;
 	}, false);
-	document.addEventListener("touchend", function(e) {
+	document.addEventListener("touchend", function (e) {
 		if (!mousedown) {
 			return;
 		}
