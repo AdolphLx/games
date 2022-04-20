@@ -317,9 +317,19 @@ function setup () {
 	AnimatedSprite1.alpha = 1;
 	AnimatedSprite1.loop = false;
 	
-	AnimatedSprite1.interactive = true;
-	AnimatedSprite1.buttonMode = true;
-	AnimatedSprite1.on('pointertap', function () {
+	menC = new PIXI.Graphics();
+	menC.beginFill(0xffffff)//填充
+	menC.drawRect(300,7300,100,200)
+	menC.endFill();
+	
+	var txture = app.renderer.generateTexture(menC);
+	var circle = new PIXI.Sprite(txture);
+	circle.x=300;
+	circle.y=7300;
+	circle.alpha = 0;
+	circle.interactive = true;
+	circle.buttonMode = true;
+	circle.on('pointertap', function () {
 		console.log(1111)
 		AnimatedSprite1.play()
 		sound_effect("tuim");
@@ -372,7 +382,7 @@ function setup () {
 	bg.addChild(borderline,textbc,sprite,sprite1,sprite2,yunBc,
 	niao01,niao02,niao03,niao04,niao05,niao06,niao07,niao08,niao09,
 	yun,shu,guoshi,guanzi,zxcbc,zxc01,zxc02,zxc03,zxc04,zxc05,
-	AnimatedSprite1,AnimatedSprite2,p10text
+	AnimatedSprite1,circle,AnimatedSprite2,p10text
 	);
 
 	container.addChild(bg);
@@ -895,7 +905,7 @@ function scrollBegin () {
 		}
 		
 		
-	console.log(scrollPro)
+	// console.log(scrollPro)
 
 	}, {
 		zooming: true,
