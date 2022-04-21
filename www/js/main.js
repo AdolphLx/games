@@ -23,6 +23,7 @@ var img = [
 	"image/p1_bg.jpeg",
 	"image/p2_text.jpeg",
 	"image/p3_bg.jpeg",
+	"image/p3text.png",
 	"image/01.png",
 	"image/02.png",
 	"image/03.png",
@@ -72,6 +73,10 @@ var img = [
 	"image/yu/17.jpeg",
 	"image/yu/18.jpeg",
 	"image/p10text.jpeg",
+	"image/p7text.jpg",
+	"image/tips.png",
+	"image/p8text.jpeg",
+	"image/p9text.jpeg",
 ]
 
 const manifest = {
@@ -93,19 +98,19 @@ function pixifn () {
 		$('.progress').css('width', Math.round(e.progress) + '%');
 		$(".loadingnum").text(Math.round(e.progress) + '%');
 	});
-	loader.on("progress", function (target, resource) {
+	loader.on("progress", function(target, resource) {  
 		console.log("progress:", target.progress); //加载进度  
-		if (target.progress == 100) {
-			// sound_effect("loopbg");
+		if(target.progress==100){
+		   // sound_effect("loopbg");
 			// setTimeout(e=>{
 			// 	ms()
 			// },1000)
 		}
-	});
+	});  
 };
-function ms () {
+function ms(){
 	var audio = document.getElementById('music1');
-	document.addEventListener("WeixinJSBridgeReady", function () {
+	document.addEventListener("WeixinJSBridgeReady", function() {
 		audio.play();
 	}, false);
 	audio.play();
@@ -116,9 +121,9 @@ function sound_effect (name) {
 	// PIXI.sound.stopAll();
 	// PIXI.sound.stop(name);
 	for (let key in manifest) {
-		if (name != 'loopbg') {
-			PIXI.sound.stop(name);
-		}
+	  if(name!='loopbg'){
+		  PIXI.sound.stop(name);
+	  }
 	}
 	PIXI.sound.play(name);
 }
@@ -152,180 +157,218 @@ function setup () {
 	bg.height = 8504;
 	container.interactive = true;
 	sound_effect("loopbg");
-
+	
 	borderline = new PIXI.Graphics();
 	borderline.beginFill(0x2b4884)//填充
-	borderline.drawRect(0, 0, 640, document.documentElement.clientHeight);//x,y,w,h
+	borderline.drawRect(0,0,640,document.documentElement.clientHeight);//x,y,w,h
 	borderline.endFill();
 	borderline.alpha = 1;
-
+	
 	textbc = new PIXI.Graphics();
 	textbc.beginFill(0xffffff)//填充
-	textbc.drawRect(0, 0, 640, document.documentElement.clientHeight);//x,y,w,h
+	textbc.drawRect(0,0,640,document.documentElement.clientHeight);//x,y,w,h
 	textbc.endFill();
 	textbc.alpha = 1;
-
+	
 	sprite = new PIXI.Sprite(
 		loader.resources["image/p1_bg.jpeg"].texture
 	);
 	sprite.position.set(0, 0);
-	sprite.zOrder = 10;
-
+	sprite.zOrder=10;
+	
 	sprite1 = new PIXI.Sprite(
 		loader.resources["image/p2_text.jpeg"].texture
 	);
 	sprite1.position.set(0, 0);
 	sprite1.alpha = 0;
-
+	
 	sprite2 = new PIXI.Sprite(
 		loader.resources["image/p3_bg.jpeg"].texture
 	);
-	sprite2.position.set(0, (document.documentElement.clientHeight - sprite.height) / 2);
+	sprite2.position.set(0, (document.documentElement.clientHeight-sprite.height)/2);
 	sprite2.alpha = 0;
-
+	
 	niao01 = new PIXI.Sprite(
 		loader.resources["image/01.png"].texture
 	);
 	niao01.position.set(320, 700);
 	niao01.alpha = 0;
-
+	
 	niao02 = new PIXI.Sprite(
 		loader.resources["image/02.png"].texture
 	);
 	niao02.position.set(350, 800);
 	niao02.alpha = 0;
-
+	
 	niao03 = new PIXI.Sprite(
 		loader.resources["image/03.png"].texture
 	);
 	niao03.position.set(375, 900);
 	niao03.alpha = 0;
-
+	
 	niao04 = new PIXI.Sprite(
 		loader.resources["image/04.png"].texture
 	);
 	niao04.position.set(340, 1000);
 	niao04.alpha = 0;
-
+	
 	niao05 = new PIXI.Sprite(
 		loader.resources["image/05.png"].texture
 	);
 	niao05.position.set(340, 1100);
 	niao05.alpha = 0;
-
+	
 	niao06 = new PIXI.Sprite(
 		loader.resources["image/06.png"].texture
 	);
 	niao06.position.set(340, 1200);
 	niao06.alpha = 0;
-
+	
 	niao07 = new PIXI.Sprite(
 		loader.resources["image/07.png"].texture
 	);
 	niao07.position.set(340, 1300);
 	niao07.alpha = 0;
-
+	
 	niao08 = new PIXI.Sprite(
 		loader.resources["image/08.png"].texture
 	);
 	niao08.position.set(340, 1400);
 	niao08.alpha = 0;
-
+	
 	niao09 = new PIXI.Sprite(
 		loader.resources["image/04.png"].texture
 	);
 	niao09.position.set(340, 1400);
 	niao09.alpha = 0;
-
+	
 	yunBc = new PIXI.Sprite(
 		loader.resources["image/yunBc.jpeg"].texture
 	);
 	yunBc.position.set(0, 2030);
 	yunBc.alpha = 1;
-
+	
 	yun = new PIXI.Sprite(
 		loader.resources["image/yun.png"].texture
 	);
 	yun.position.set(0, 2030);
 	yun.alpha = 0;
-
+	
+	p3text = new PIXI.Sprite(
+		loader.resources["image/p3text.png"].texture
+	);
+	p3text.position.set(-640, 2030);
+	p3text.alpha = 0;
+	p3text.interactive = true;
+	p3text.buttonMode = true;
+	p3text.on('pointertap', function () {
+		console.log(111111)
+		window.location.href='http://www.chinatax.gov.cn/chinatax/n810341/n810825/c101434/c5172428/content.html'
+	})
+	
+	
 	shu = new PIXI.Sprite(
 		loader.resources["image/shu.png"].texture
 	);
 	shu.position.set(68, 3500);
 	shu.alpha = 1;
-
+	
 	guoshi = new PIXI.Sprite(
 		loader.resources["image/guoshi.png"].texture
 	);
 	guoshi.position.set(150, 3680);
 	guoshi.alpha = 1;
-
+	
 	guanzi = new PIXI.Sprite(
 		loader.resources["image/guanzi.png"].texture
 	);
 	guanzi.position.set(-200, 3680);
 	guanzi.alpha = 1;
-	guanzi.scale.x = 0.3
-	guanzi.scale.y = 0.3
-
+	guanzi.scale.x=0.3
+	guanzi.scale.y=0.3
+	
 	zxcbc = new PIXI.Sprite(
 		loader.resources["image/zxcbc.jpeg"].texture
 	);
 	zxcbc.position.set(0, 4000);
 	zxcbc.alpha = 0;
-
+	
 	zxc01 = new PIXI.Sprite(
 		loader.resources["image/zxc01.png"].texture
 	);
 	zxc01.position.set(0, 4000);
 	zxc01.alpha = 0;
-
+	
 	zxc02 = new PIXI.Sprite(
 		loader.resources["image/zxc02.png"].texture
 	);
 	zxc02.position.set(0, 4200);
 	zxc02.alpha = 0;
-
+	
 	zxc03 = new PIXI.Sprite(
 		loader.resources["image/zxc03.png"].texture
 	);
 	zxc03.position.set(0, 4400);
 	zxc03.alpha = 0;
-
+	
 	zxc04 = new PIXI.Sprite(
 		loader.resources["image/zxc04.png"].texture
 	);
 	zxc04.position.set(0, 4600);
 	zxc04.alpha = 0;
-
+	
 	zxc05 = new PIXI.Sprite(
 		loader.resources["image/zxc05.png"].texture
 	);
 	zxc05.position.set(0, 4800);
 	zxc05.alpha = 0;
-
+	
+	p8text = new PIXI.Sprite(
+		loader.resources["image/p8text.jpeg"].texture
+	);
+	p8text.position.set(0, 8000);
+	p8text.alpha = 0;
+	
+	tips2 = new PIXI.Sprite(
+		loader.resources["image/tips.png"].texture
+	);
+	tips2.position.set(-500, 8500);
+	tips2.alpha = 0;
+	tips2.interactive = true;
+	tips2.buttonMode = true;
+	tips2.on('pointertap', function () {
+		// p10text.alpha=1
+		window.location.href='http://www.chinatax.gov.cn/chinatax/n810341/n810825/c101434/c5171314/content.html'
+	})
+	
 	var Textures = []
-	for (var i = 1; i < 12; i++) {
+	for (var i = 1; i < 11; i++) {
 		var Texture = loader.resources["image/men/" + i + ".jpeg"].texture;
 		Textures.push(Texture);
 	}
 	AnimatedSprite1 = new PIXI.extras.AnimatedSprite(Textures);
 	AnimatedSprite1.position.x = 0;
-	AnimatedSprite1.position.y = 6800;
+	AnimatedSprite1.position.y = 8000;
 	AnimatedSprite1.animationSpeed = 0.08;
 	AnimatedSprite1.alpha = 1;
 	AnimatedSprite1.loop = false;
-
+	AnimatedSprite1.onComplete = () => {
+		console.log("播放完成");
+		p8text.alpha=1
+		setTimeout(e=>{
+			tips2.x=140
+		},500)
+	}; //完成的回调函数
+	
 	menC = new PIXI.Graphics();
 	menC.beginFill(0xffffff)//填充
-	menC.drawRect(300, 7300, 100, 200)
+	menC.drawRect(300,8500,100,200)
 	menC.endFill();
-
+	
 	var txture = app.renderer.generateTexture(menC);
 	var circle = new PIXI.Sprite(txture);
-	circle.x = 300;
-	circle.y = 7300;
+	circle.x=300;
+	circle.y=8500;
 	circle.alpha = 0;
 	circle.interactive = true;
 	circle.buttonMode = true;
@@ -334,7 +377,7 @@ function setup () {
 		AnimatedSprite1.play()
 		sound_effect("tuim");
 	})
-
+	
 	var Textures2 = []
 	for (var i = 1; i < 19; i++) {
 		var Texture2 = loader.resources["image/yu/" + i + ".jpeg"].texture;
@@ -342,34 +385,78 @@ function setup () {
 	}
 	AnimatedSprite2 = new PIXI.extras.AnimatedSprite(Textures2);
 	AnimatedSprite2.position.x = 0;
-	AnimatedSprite2.position.y = 8000;
+	AnimatedSprite2.position.y = 11600;
 	AnimatedSprite2.animationSpeed = 0.08;
 	AnimatedSprite2.alpha = 1;
 	AnimatedSprite2.loop = false;
-
+	
 	AnimatedSprite2.interactive = true;
 	AnimatedSprite2.buttonMode = true;
 	AnimatedSprite2.on('pointertap', function () {
 		console.log(1111)
 		AnimatedSprite2.play()
 		sound_effect("xiayu");
-		setTimeout(e => {
-			p10text.x = 0
-		}, 1000)
+		setTimeout(e=>{
+			p10text.x=0
+		},1000)
 	})
-
+	
 	p10text = new PIXI.Sprite(
 		loader.resources["image/p10text.jpeg"].texture
 	);
-	p10text.position.set(-640, 8000);
+	p10text.position.set(-640, 11600);
 	p10text.alpha = 0;
 	p10text.interactive = true;
 	p10text.buttonMode = true;
 	p10text.on('pointertap', function () {
-		p10text.alpha = 1
+		p10text.alpha=1
 	})
-
-
+	
+	p7text = new PIXI.Sprite(
+		loader.resources["image/p7text.jpg"].texture
+	);
+	p7text.position.set(0, 6850);
+	p7text.alpha = 1;
+	
+	tips = new PIXI.Sprite(
+		loader.resources["image/tips.png"].texture
+	);
+	tips.position.set(140, 7350);
+	tips.alpha = 1;
+	tips.interactive = true;
+	tips.buttonMode = true;
+	tips.on('pointertap', function () {
+		// p10text.alpha=1
+		window.location.href='http://www.chinatax.gov.cn/chinatax/n810341/n810825/c101434/c5173889/content.html'
+	})
+	
+	p8img = new PIXI.Sprite(
+		loader.resources["image/men/11.jpeg"].texture
+	);
+	p8img.position.set(0, 9200);
+	p8img.alpha = 0;
+	
+	p9text = new PIXI.Sprite(
+		loader.resources["image/p9text.jpeg"].texture
+	);
+	p9text.position.set(0, 10400);
+	p9text.alpha = 1;
+	
+	tips3 = new PIXI.Sprite(
+		loader.resources["image/tips.png"].texture
+	);
+	tips3.position.set(140, 10900);
+	tips3.alpha = 0;
+	tips3.interactive = true;
+	tips3.buttonMode = true;
+	tips3.on('pointertap', function () {
+		// p10text.alpha=1
+		window.location.href='http://www.chinatax.gov.cn/chinatax/n810341/n810825/c101434/c5162030/content.html'
+	})
+	
+	
+	
+	
 	//var urlPadding = "imgs/dog/",
 	//act_1_animate_bg_img_arr = [];
 	// for (let $e = 0; $e < 6; $e++) {
@@ -379,10 +466,10 @@ function setup () {
 	//    dog = new PIXI.extras.AnimatedSprite.fromImages(act_1_animate_bg_img_arr)
 
 
-	bg.addChild(borderline, textbc, sprite, sprite1, sprite2, yunBc,
-		niao01, niao02, niao03, niao04, niao05, niao06, niao07, niao08, niao09,
-		yun, shu, guoshi, guanzi, zxcbc, zxc01, zxc02, zxc03, zxc04, zxc05,
-		AnimatedSprite1, circle, AnimatedSprite2, p10text
+	bg.addChild(borderline,textbc,sprite,sprite1,sprite2,yunBc,
+	niao01,niao02,niao03,niao04,niao05,niao06,niao07,niao08,niao09,p3text,
+	yun,shu,p7text,guoshi,guanzi,zxcbc,zxc01,zxc02,zxc03,zxc04,zxc05,
+	AnimatedSprite1,p8text,tips2,circle,AnimatedSprite2,p10text,tips,p8img,p9text,tips3
 	);
 
 	container.addChild(bg);
@@ -454,7 +541,7 @@ function v () {
 				scrollDirection = "top";
 				lastWidth = wh;
 				console.log(wh)
-				contentLength = 9800 - lastWidth + 640;
+				contentLength = 13600 - lastWidth + 640;
 				console.log(contentLength);
 				scroller.setDimensions(app.view.width, app.view.height, app.view.width, contentLength);
 				scroller.scrollTo(scrollPro, 0, false);
@@ -479,40 +566,40 @@ function scrollBegin () {
 			container.y = -left;
 		}
 		scrollPro = left > top ? left : top;
-		if (scrollPro < 50) {
-			sprite.y = 0
-			sprite.alpha = 1
-			borderline.y = 0
-			borderline.alpha = 1
-			sprite1.alpha = 0
-			textbc.alpha = 0
-			sprite2.alpha = 0
+		if(scrollPro<50){
+			sprite.y= 0
+			sprite.alpha=1
+			borderline.y= 0
+			borderline.alpha=1
+			sprite1.alpha=0
+			textbc.alpha=0
+			sprite2.alpha=0
 		}
 		if (0 < scrollPro && scrollPro < 300) {
-			sprite.y = scrollNum(0, 200, scrollPro, 0, 200);
+			sprite.y= scrollNum(0, 200, scrollPro, 0, 200);
 			sprite.alpha = scrollNum(0, 200, scrollPro, 1, 0);
-
-			borderline.y = scrollNum(0, 200, scrollPro, 0, 200);
+			
+			borderline.y= scrollNum(0, 200, scrollPro, 0, 200);
 			borderline.alpha = scrollNum(0, 200, scrollPro, 1, 0);
-
-			sprite2.alpha = 0
-			sprite1.alpha = 0
-			textbc.alpha = 0
-			niao01.alpha = 0
-
+			
+			sprite2.alpha=0
+			sprite1.alpha=0
+			textbc.alpha=0
+			niao01.alpha=0
+			
 		}
-		if (300 < scrollPro && scrollPro < 600) {
-			sprite1.y = scrollNum(0, 500, scrollPro, 0, 500);
+		if(300 < scrollPro && scrollPro < 600){
+			sprite1.y= scrollNum(0, 500, scrollPro, 0, 500);
 			sprite1.alpha = scrollNum(0, 500, scrollPro, 0, 1);
-
-			textbc.y = scrollNum(0, 500, scrollPro, 0, 500);
+			
+			textbc.y= scrollNum(0, 500, scrollPro, 0, 500);
 			textbc.alpha = scrollNum(0, 500, scrollPro, 0, 1);
-
-			sprite2.alpha = 0
-			niao01.alpha = 0
-
+			
+			sprite2.alpha=0
+			niao01.alpha=0
+			
 		}
-		if (600 < scrollPro && scrollPro < 900) {
+		if(600 < scrollPro && scrollPro < 900){
 			sprite1.alpha = 0
 			sprite2.y = scrollNum(0, 500, scrollPro, 0, 500);
 			sprite2.alpha = scrollNum(0, 800, scrollPro, 0, 1);
@@ -527,7 +614,7 @@ function scrollBegin () {
 			niao08.alpha = 0;
 			sound_effect("niao");
 		}
-		if (900 < scrollPro && scrollPro < 1000) {
+		if( 900< scrollPro && scrollPro < 1000){
 			niao02.alpha = 1;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -536,9 +623,9 @@ function scrollBegin () {
 			niao06.alpha = 0;
 			niao07.alpha = 0;
 			niao08.alpha = 0;
-			niao02.y = scrollNum(900, 1000, scrollPro, 1100, 1200);
+			niao02.y= scrollNum(900, 1000, scrollPro, 1100, 1200);
 		}
-		if (1000 < scrollPro && scrollPro < 1100) {
+		if( 1000< scrollPro && scrollPro < 1100){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 1;
@@ -548,9 +635,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao03.y = scrollNum(1000, 1100, scrollPro, 1200, 1300);
+			niao03.y= scrollNum(1000, 1100, scrollPro, 1200, 1300);
 		}
-		if (1100 < scrollPro && scrollPro < 1200) {
+		if( 1100< scrollPro && scrollPro < 1200){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -560,9 +647,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao04.y = scrollNum(1100, 1200, scrollPro, 1300, 1400);
+			niao04.y= scrollNum(1100, 1200, scrollPro, 1300, 1400);
 		}
-		if (1200 < scrollPro && scrollPro < 1300) {
+		if( 1200< scrollPro && scrollPro < 1300){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -572,9 +659,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao05.y = scrollNum(1200, 1300, scrollPro, 1400, 1500);
+			niao05.y= scrollNum(1200, 1300, scrollPro, 1400, 1500);
 		}
-		if (1300 < scrollPro && scrollPro < 1400) {
+		if( 1300< scrollPro && scrollPro < 1400){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -584,9 +671,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao06.y = scrollNum(1300, 1400, scrollPro, 1500, 1600);
+			niao06.y= scrollNum(1300, 1400, scrollPro, 1500, 1600);
 		}
-		if (1400 < scrollPro && scrollPro < 1500) {
+		if( 1400< scrollPro && scrollPro < 1500){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -596,9 +683,9 @@ function scrollBegin () {
 			niao07.alpha = 1;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao07.y = scrollNum(1400, 1500, scrollPro, 1600, 1700);
+			niao07.y= scrollNum(1400, 1500, scrollPro, 1600, 1700);
 		}
-		if (1500 < scrollPro && scrollPro < 1600) {
+		if( 1500< scrollPro && scrollPro < 1600){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -608,9 +695,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 1;
 			niao09.alpha = 0;
-			niao08.y = scrollNum(1500, 1600, scrollPro, 1700, 1800);
+			niao08.y= scrollNum(1500, 1600, scrollPro, 1700, 1800);
 		}
-		if (1600 < scrollPro && scrollPro < 1700) {
+		if( 1600< scrollPro && scrollPro < 1700){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -620,9 +707,9 @@ function scrollBegin () {
 			niao07.alpha = 1;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao07.y = scrollNum(1600, 1700, scrollPro, 1800, 1900);
+			niao07.y= scrollNum(1600, 1700, scrollPro, 1800, 1900);
 		}
-		if (1700 < scrollPro && scrollPro < 1800) {
+		if( 1700< scrollPro && scrollPro < 1800){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -632,10 +719,10 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao06.y = scrollNum(1700, 1800, scrollPro, 1900, 2000);
+			niao06.y= scrollNum(1700, 1800, scrollPro, 1900, 2000);
 			yun.alpha = scrollNum(1700, 1800, scrollPro, 0, 0.5);
 		}
-		if (1800 < scrollPro && scrollPro < 1900) {
+		if( 1800< scrollPro && scrollPro < 1900){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -645,10 +732,10 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao05.y = scrollNum(1800, 1900, scrollPro, 2000, 2100);
+			niao05.y= scrollNum(1800, 1900, scrollPro, 2000, 2100);
 			yun.alpha = scrollNum(1800, 1900, scrollPro, 0.5, 1);
 		}
-		if (1900 < scrollPro && scrollPro < 2000) {
+		if( 1900< scrollPro && scrollPro < 2000){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -658,9 +745,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao04.y = scrollNum(1900, 2000, scrollPro, 2100, 2200);
+			niao04.y= scrollNum(1900, 2000, scrollPro, 2100, 2200);
 		}
-		if (2000 < scrollPro && scrollPro < 2100) {
+		if( 2000< scrollPro && scrollPro < 2100){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -670,9 +757,9 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao05.y = scrollNum(2000, 2100, scrollPro, 2200, 2300);
+			niao05.y= scrollNum(2000, 2100, scrollPro, 2200, 2300);
 		}
-		if (2100 < scrollPro && scrollPro < 2200) {
+		if( 2100< scrollPro && scrollPro < 2200){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -682,10 +769,11 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao06.y = scrollNum(2100, 2200, scrollPro, 2300, 2400);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao06.y= scrollNum(2100, 2200, scrollPro, 2300, 2400);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2200 < scrollPro && scrollPro < 2300) {
+		if( 2200< scrollPro && scrollPro < 2300){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -695,10 +783,11 @@ function scrollBegin () {
 			niao07.alpha = 1;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao07.y = scrollNum(2200, 2300, scrollPro, 2400, 2500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao07.y= scrollNum(2200, 2300, scrollPro, 2400, 2500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2300 < scrollPro && scrollPro < 2400) {
+		if( 2300< scrollPro && scrollPro < 2400){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -708,10 +797,11 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 1;
 			niao09.alpha = 0;
-			niao08.y = scrollNum(2300, 2400, scrollPro, 2500, 2600);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao08.y= scrollNum(2300, 2400, scrollPro, 2500, 2600);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2400 < scrollPro && scrollPro < 2500) {
+		if( 2400< scrollPro && scrollPro < 2500){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -721,10 +811,11 @@ function scrollBegin () {
 			niao07.alpha = 1;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao07.y = scrollNum(2400, 2500, scrollPro, 2600, 2700);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao07.y= scrollNum(2400, 2500, scrollPro, 2600, 2700);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2500 < scrollPro && scrollPro < 2600) {
+		if( 2500< scrollPro && scrollPro < 2600){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -734,10 +825,11 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao06.y = scrollNum(2500, 2600, scrollPro, 2700, 2800);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao06.y= scrollNum(2500, 2600, scrollPro, 2700, 2800);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2600 < scrollPro && scrollPro < 2700) {
+		if( 2600< scrollPro && scrollPro < 2700){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -747,10 +839,11 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao05.y = scrollNum(2600, 2700, scrollPro, 2800, 2900);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao05.y= scrollNum(2600, 2700, scrollPro, 2800, 2900);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2700 < scrollPro && scrollPro < 2800) {
+		if( 2700< scrollPro && scrollPro < 2800){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -760,10 +853,11 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 1;
-			niao09.y = scrollNum(2700, 2800, scrollPro, 2900, 3400);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			niao09.y= scrollNum(2700, 2800, scrollPro, 2900, 3400);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 		}
-		if (2800 < scrollPro && scrollPro < 3000) {
+		if( 2800< scrollPro && scrollPro < 3000){
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 0;
@@ -773,19 +867,22 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 1;
-			niao09.y = scrollNum(3100, 3200, scrollPro, 3800, 3900);
-			shu.y = scrollNum(3800, 3900, scrollPro, 4400, 4500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
-			guoshi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
-			guanzi.y = scrollNum(3650, 3750, scrollPro, 4400, 4500);
-		}
+			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
+			shu.y= scrollNum(3800, 3900, scrollPro, 4400, 4500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
 
-		if (3000 < scrollPro && scrollPro < 3200) {
-			niao09.y = scrollNum(3100, 3200, scrollPro, 3800, 3900);
-			shu.y = scrollNum(3800, 3900, scrollPro, 4400, 4500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
-			guoshi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
-			guanzi.y = scrollNum(3650, 3750, scrollPro, 4400, 4500);
+			guoshi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
+			guanzi.y= scrollNum(3650, 3750, scrollPro, 4400, 4500);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+		}
+		
+		if( 3000< scrollPro && scrollPro < 3200){
+			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
+			shu.y= scrollNum(3800, 3900, scrollPro, 4400, 4500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			guoshi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
+			guanzi.y= scrollNum(3650, 3750, scrollPro, 4400, 4500);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3600, 3700);
 			niao02.alpha = 0;
 			niao01.alpha = 0;
 			niao03.alpha = 1;
@@ -795,14 +892,17 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao03.y = scrollNum(3000, 3100, scrollPro, 3800, 3900);
+			niao03.y= scrollNum(3000, 3100, scrollPro, 3800, 3900);
+			yunBc.alpha= scrollNum(3000, 3200, scrollPro, 1, 0);
+			p3text.alpha= 0
 		}
-		if (3200 < scrollPro && scrollPro < 3500) {
-			niao09.y = scrollNum(3100, 3200, scrollPro, 3800, 3900);
-			shu.y = scrollNum(3800, 3900, scrollPro, 4400, 4500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
-			guoshi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
-			guanzi.y = scrollNum(3650, 3750, scrollPro, 4400, 4500);
+		if( 3200< scrollPro && scrollPro < 3500){
+			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
+			shu.y= scrollNum(3800, 3900, scrollPro, 4400, 4500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			guoshi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
+			guanzi.y= scrollNum(3650, 3750, scrollPro, 4400, 4500);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3600, 3700);
 			niao02.alpha = 0;
 			niao01.alpha = 1;
 			niao03.alpha = 0;
@@ -812,14 +912,18 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao01.y = scrollNum(2950, 3050, scrollPro, 3800, 3900);
+			niao01.y= scrollNum(2950, 3050, scrollPro, 3800, 3900);
+			p3text.alpha= scrollNum(3200, 3300, scrollPro, 0, 1);
+			p3text.x= 0
+			
 		}
-		if (3500 < scrollPro && scrollPro < 4200) {
-			niao09.y = scrollNum(3100, 3200, scrollPro, 3800, 3900);
-			shu.y = scrollNum(3800, 3900, scrollPro, 4400, 4500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
-			guoshi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
-			guanzi.y = scrollNum(3650, 3750, scrollPro, 4400, 4500);
+		if( 3500< scrollPro && scrollPro < 4200){
+			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
+			shu.y= scrollNum(3800, 3900, scrollPro, 4400, 4500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			guoshi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
+			guanzi.y= scrollNum(3650, 3750, scrollPro, 4400, 4500);
+			p3text.y= scrollNum(3800, 3900, scrollPro, 3600, 3700);
 			niao02.alpha = 0;
 			niao01.alpha = 1;
 			niao03.alpha = 0;
@@ -829,20 +933,23 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao01.y = scrollNum(2950, 3050, scrollPro, 3800, 3900);
-			yunBc.x = scrollNum(3800, 3900, scrollPro, 300, 400);
-			shu.x = scrollNum(3800, 3900, scrollPro, 300, 400);
-			niao01.x = scrollNum(3800, 3900, scrollPro, 550, 650);
-			guanzi.x = scrollNum(3800, 3900, scrollPro, -10, 0);
+			niao01.y= scrollNum(2950, 3050, scrollPro, 3800, 3900);
+			yunBc.x= scrollNum(3800, 3900, scrollPro, 300, 400);
+			shu.x= scrollNum(3800, 3900, scrollPro, 300, 400);
+			niao01.x= scrollNum(3800, 3900, scrollPro, 550, 650);
+			guanzi.x= scrollNum(3800, 3900, scrollPro, -10, 0);
 			guanzi.alpha = 1;
 			guoshi.alpha = 1;
+			if(3800< scrollPro){
+				p3text.alpha= 0
+			}
 		}
-		if (4200 < scrollPro && scrollPro < 4500) {
-			niao09.y = scrollNum(3100, 3200, scrollPro, 3800, 3900);
-			shu.y = scrollNum(3800, 3900, scrollPro, 4400, 4500);
-			yunBc.y = scrollNum(3800, 3900, scrollPro, 3800, 3900);
-			guoshi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
-			guanzi.y = scrollNum(3600, 3700, scrollPro, 4400, 4500);
+		if( 4200< scrollPro && scrollPro < 4500){
+			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
+			shu.y= scrollNum(3800, 3900, scrollPro, 4400, 4500);
+			yunBc.y= scrollNum(3800, 3900, scrollPro, 3800, 3900);
+			guoshi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
+			guanzi.y= scrollNum(3600, 3700, scrollPro, 4400, 4500);
 			niao02.alpha = 0;
 			niao01.alpha = 1;
 			niao03.alpha = 0;
@@ -852,17 +959,17 @@ function scrollBegin () {
 			niao07.alpha = 0;
 			niao08.alpha = 0;
 			niao09.alpha = 0;
-			niao01.y = scrollNum(2950, 3050, scrollPro, 3800, 3900);
-			yunBc.x = scrollNum(3800, 3900, scrollPro, 300, 400);
-			shu.x = scrollNum(3800, 3900, scrollPro, 300, 400);
-			niao01.x = scrollNum(3800, 3900, scrollPro, 550, 650);
-			guanzi.x = scrollNum(3800, 3900, scrollPro, -10, 0);
+			niao01.y= scrollNum(2950, 3050, scrollPro, 3800, 3900);
+			yunBc.x= scrollNum(3800, 3900, scrollPro, 300, 400);
+			shu.x= scrollNum(3800, 3900, scrollPro, 300, 400);
+			niao01.x= scrollNum(3800, 3900, scrollPro, 550, 650);
+			guanzi.x= scrollNum(3800, 3900, scrollPro, -10, 0);
 			guanzi.alpha = 0;
 			guoshi.alpha = 0;
-			zxcbc.y = scrollNum(4400, 4500, scrollPro, 4400, 4500);
+			zxcbc.y= scrollNum(4400, 4500, scrollPro, 4400, 4500);
 			zxcbc.alpha = scrollNum(4200, 4500, scrollPro, 0, 1);
-
-			zxc01.y = scrollNum(4400, 4500, scrollPro, 4400, 4500);
+			
+			zxc01.y= scrollNum(4400, 4500, scrollPro, 4400, 4500);
 			zxc01.alpha = scrollNum(4200, 4500, scrollPro, 0, 1);
 			zxc02.alpha = 0
 			zxc03.alpha = 0
@@ -870,32 +977,32 @@ function scrollBegin () {
 			zxc05.alpha = 0
 			sound_effect("zxc");
 		}
-		if (4500 < scrollPro && scrollPro < 4600) {
-			zxc02.y = scrollNum(4500, 4600, scrollPro, 4700, 4800);
+		if(4500< scrollPro && scrollPro < 4600){
+			zxc02.y= scrollNum(4500, 4600, scrollPro, 4700, 4800);
 			zxc01.alpha = 0
 			zxc02.alpha = 1
 			zxc03.alpha = 0
 			zxc04.alpha = 0
 			zxc05.alpha = 0
 		}
-		if (4600 < scrollPro && scrollPro < 4700) {
-			zxc03.y = scrollNum(4600, 4700, scrollPro, 4800, 4900);
+		if(4600< scrollPro && scrollPro < 4700){
+			zxc03.y= scrollNum(4600, 4700, scrollPro, 4800, 4900);
 			zxc01.alpha = 0
 			zxc02.alpha = 0
 			zxc03.alpha = 1
 			zxc04.alpha = 0
 			zxc05.alpha = 0
 		}
-		if (4700 < scrollPro && scrollPro < 4800) {
-			zxc04.y = scrollNum(4700, 4800, scrollPro, 4900, 5000);
+		if(4700< scrollPro && scrollPro < 4800){
+			zxc04.y= scrollNum(4700, 4800, scrollPro, 4900, 5000);
 			zxc01.alpha = 0
 			zxc02.alpha = 0
 			zxc03.alpha = 0
 			zxc04.alpha = 1
 			zxc05.alpha = 0
 		}
-		if (4800 < scrollPro && scrollPro < 4900) {
-			zxc05.y = scrollNum(4800, 4900, scrollPro, 5000, 5100);
+		if(4800< scrollPro && scrollPro < 4900){
+			zxc05.y= scrollNum(4800, 4900, scrollPro, 5000, 5100);
 			zxc01.alpha = 0
 			zxc02.alpha = 0
 			zxc03.alpha = 0
@@ -903,9 +1010,18 @@ function scrollBegin () {
 			zxc05.alpha = 1
 			PIXI.sound.stop('zxc');
 		}
-
-
-		// console.log(scrollPro)
+		if(6000< scrollPro && scrollPro < 6600){
+			tips2.alpha= scrollNum(6000, 6500, scrollPro, 0, 1);
+		}
+		if(8000< scrollPro && scrollPro < 8500){
+			p8img.alpha= scrollNum(8000, 8500, scrollPro, 0, 1);
+		}
+		if(9500< scrollPro && scrollPro < 10000){
+			tips3.alpha= scrollNum(9500, 10000, scrollPro, 0, 1);
+		}
+		
+		
+	console.log(scrollPro)
 
 	}, {
 		zooming: true,
