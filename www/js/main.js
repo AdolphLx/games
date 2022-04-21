@@ -541,7 +541,7 @@ function v () {
 				scrollDirection = "top";
 				lastWidth = wh;
 				console.log(wh)
-				contentLength = 13400 - lastWidth + 640;
+				contentLength = 13300 - lastWidth + 640;
 				console.log(contentLength);
 				scroller.setDimensions(app.view.width, app.view.height, app.view.width, contentLength);
 				scroller.scrollTo(scrollPro, 0, false);
@@ -895,6 +895,7 @@ function scrollBegin () {
 			niao03.y= scrollNum(3000, 3100, scrollPro, 3800, 3900);
 			yunBc.alpha= scrollNum(3000, 3200, scrollPro, 1, 0);
 			p3text.alpha= 0
+			p3text.x= -640
 		}
 		if( 3200< scrollPro && scrollPro < 3500){
 			niao09.y= scrollNum(3100, 3200, scrollPro, 3800, 3900);
@@ -966,8 +967,8 @@ function scrollBegin () {
 			guanzi.x= scrollNum(3800, 3900, scrollPro, -10, 0);
 			guanzi.alpha = 0;
 			guoshi.alpha = 0;
-			zxcbc.y= scrollNum(4400, 4500, scrollPro, 4400, 4500);
-			zxcbc.alpha = scrollNum(4200, 4500, scrollPro, 0, 1);
+			zxcbc.y= scrollNum(4250, 4500, scrollPro, 4400, 4500);
+			zxcbc.alpha = scrollNum(4400, 4500, scrollPro, 0, 1);
 			
 			zxc01.y= scrollNum(4400, 4500, scrollPro, 4400, 4500);
 			zxc01.alpha = scrollNum(4200, 4500, scrollPro, 0, 1);
