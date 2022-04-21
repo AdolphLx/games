@@ -541,7 +541,7 @@ function v () {
 				scrollDirection = "top";
 				lastWidth = wh;
 				console.log(wh)
-				contentLength = 13600 - lastWidth + 640;
+				contentLength = 13300 - lastWidth + 640;
 				console.log(contentLength);
 				scroller.setDimensions(app.view.width, app.view.height, app.view.width, contentLength);
 				scroller.scrollTo(scrollPro, 0, false);
